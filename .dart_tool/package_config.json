@@ -155,10 +155,10 @@
       "name": "drawerbehavior",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-06-11T13:01:51.333320Z",
+  "generated": "2024-06-11T13:04:40.228044Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/furkan/dev/flutter",
