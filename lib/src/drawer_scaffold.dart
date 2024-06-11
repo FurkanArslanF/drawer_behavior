@@ -39,8 +39,7 @@ class DrawerScaffold extends StatefulWidget {
     this.onOpened,
     this.onClosed,
     this.backgroundColor,
-  })  : assert((drawers?.where((element) => element.peekMenu).length ?? 0) < 2,
-            "\n\nOnly can have one SideDrawer with peek menu\n"),
+  })  : assert((drawers?.where((element) => element.peekMenu).length ?? 0) < 2, "\n\nOnly can have one SideDrawer with peek menu\n"),
         assert(body == null || builder == null, "Use either child or builder"),
         super(key: key);
 
@@ -96,19 +95,13 @@ class DrawerScaffold extends StatefulWidget {
   static MenuController currentController(BuildContext context, {bool nullOk = true}) {
     final _DrawerScaffoldState? result = context.findAncestorStateOfType<_DrawerScaffoldState>();
     if (nullOk || result != null) return result!._controller;
-    throw FlutterError.fromParts(<DiagnosticsNode>[
-      ErrorSummary('_SideDrawerState.of() called with a context that does not contain a MenuController.'),
-      context.describeElement('The context used was')
-    ]);
+    throw FlutterError.fromParts(<DiagnosticsNode>[ErrorSummary('_SideDrawerState.of() called with a context that does not contain a MenuController.'), context.describeElement('The context used was')]);
   }
 
   static MenuController? getControllerFor(BuildContext context, SideDrawer drawer, {bool nullOk = true}) {
     final _DrawerScaffoldState? result = context.findAncestorStateOfType<_DrawerScaffoldState>();
     if (nullOk || result != null) return result!._getControllerFor(drawer);
-    throw FlutterError.fromParts(<DiagnosticsNode>[
-      ErrorSummary('_SideDrawerState.of() called with a context that does not contain a MenuController.'),
-      context.describeElement('The context used was')
-    ]);
+    throw FlutterError.fromParts(<DiagnosticsNode>[ErrorSummary('_SideDrawerState.of() called with a context that does not contain a MenuController.'), context.describeElement('The context used was')]);
   }
 }
 
@@ -128,8 +121,7 @@ class _DrawerScaffoldState<T> extends State<DrawerScaffold> with TickerProviderS
   int listenDrawerIndex = 0;
   int focusDrawerIndex = 0;
 
-  int get mainDrawerIndex =>
-      max(0, widget.drawers?.indexWhere((element) => element.direction == widget.defaultDirection) ?? 0);
+  int get mainDrawerIndex => max(0, widget.drawers?.indexWhere((element) => element.direction == widget.defaultDirection) ?? 0);
   @override
   void initState() {
     super.initState();
@@ -187,8 +179,7 @@ class _DrawerScaffoldState<T> extends State<DrawerScaffold> with TickerProviderS
     }
   }
 
-  MenuController dcreateController<T>(
-      BuildContext context, SideDrawer<T> d, TickerProvider vsync, Function(double) onAnimated) {
+  MenuController dcreateController<T>(BuildContext context, SideDrawer<T> d, TickerProvider vsync, Function(double) onAnimated) {
     MenuController controller = MenuController(
       d,
       onAnimated,
@@ -392,25 +383,39 @@ class _DrawerScaffoldState<T> extends State<DrawerScaffold> with TickerProviderS
 
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
 
-    return zoomAndSlideContent(new Container(
+    return zoomAndSlideContent(
+      new Container(
         decoration: new BoxDecoration(
           color: widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         ),
         child: isIOS
             ? content
-            : WillPopScope(
+            : PopScope(
                 child: content,
-                onWillPop: () {
-                  return Future(() {
-                    if (isDrawerOpen()) {
-                      menuControllers?.forEach((element) {
-                        element.close();
-                      });
-                      return false;
-                    }
-                    return true;
-                  });
-                })));
+                onPopInvoked: (didPop) {
+                  if (didPop) {
+                    menuControllers?.forEach((element) {
+                      element.close();
+                    });
+                  }
+                },
+              ),
+        // : WillPopScope(
+        //     child: content,
+        //     onWillPop: () {
+        //       return Future(() {
+        //         if (isDrawerOpen()) {
+        //           menuControllers?.forEach((element) {
+        //             element.close();
+        //           });
+        //           return false;
+        //         }
+        //         return true;
+        //       });
+        //     },
+        //   ),
+      ),
+    );
   }
 
   zoomAndSlideContent(Widget content, [bool isDrawer = false]) {
@@ -721,9 +726,7 @@ class DrawerScaffoldController {
 
   ValueChanged<bool>? onToggle;
 
-  bool isOpen([Direction direction = Direction.left]) =>
-      _menuControllers?.where((element) => element._drawer.direction == direction && element.isOpen()).isNotEmpty ==
-      true;
+  bool isOpen([Direction direction = Direction.left]) => _menuControllers?.where((element) => element._drawer.direction == direction && element.isOpen()).isNotEmpty == true;
 }
 
 enum MenuState {
