@@ -1,8 +1,7 @@
 name: drawerbehavior
 description: Drawer behavior is a library that provide an extra behavior on drawer, such as, move view or scaling view's height while drawer on slide..
-version: 2.4.1
-homepage: https://github.com/FurkanArslanF/drawer_behavior
-repository: https://github.com/FurkanArslanF/drawer_behavior
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.2.5 <4.0.0"

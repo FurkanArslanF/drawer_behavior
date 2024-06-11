@@ -394,9 +394,11 @@ class _DrawerScaffoldState<T> extends State<DrawerScaffold> with TickerProviderS
                 child: content,
                 onPopInvoked: (didPop) {
                   if (didPop) {
-                    menuControllers?.forEach((element) {
-                      element.close();
-                    });
+                    if (isDrawerOpen()) {
+                      menuControllers?.forEach((element) {
+                        element.close();
+                      });
+                    }
                   }
                 },
               ),
